@@ -4,6 +4,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from apiv1.permissions import IsAdmin, IsAlive
 from .serializers import SignupSerializer, SubjectSerializer
 
 from .models import Profile, User, Semester
@@ -34,7 +35,7 @@ class ProfileCreateView(CreateAPIView):
 
 class SubjectCreateView(CreateAPIView):
     serializer_class = SubjectSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
 
     def post(self, request, *args, **kwargs):
         serializer = SubjectSerializer(data=request.data)
@@ -45,3 +46,4 @@ class SubjectCreateView(CreateAPIView):
             return Response({"msg": "subject created"}, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response({"msg": "something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
+
