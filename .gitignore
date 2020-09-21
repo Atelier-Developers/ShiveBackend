@@ -1,0 +1,13 @@
+venv/
+.idea/
+venv
+.venv/
+.venv
+.idea
+db.sqlite3
+static
+apiv1/migrations
+git/
+.git/
+apiv1/__pycache__/
+media
