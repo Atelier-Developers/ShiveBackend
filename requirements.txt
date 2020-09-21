@@ -5,10 +5,12 @@ certifi==2019.6.16
 chardet==3.0.4
 Django==2.2.1
 django-cors-headers==3.2.1
+django-jalali==4.0.0
 django-phonenumber-field==3.0.1
 djangorestframework==3.9.4
 furl==2.0.0
 idna==2.8
+jdatetime==3.6.2
 kavenegar==1.1.2
 orderedmultidict==1.0.1
 phonenumbers==8.10.13
