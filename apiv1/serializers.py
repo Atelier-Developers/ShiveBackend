@@ -12,6 +12,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["name", "student_no", "phone"]
+        fields = ["name", "student_no", "phone", "password"]
 
     password = serializers.CharField(max_length=256)

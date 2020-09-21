@@ -8,6 +8,9 @@ from django_jalali.db import models as jmodels
 class Semester(models.Model):
     year = models.CharField(max_length=20)
 
+    def __str__(self):
+        return str(self.year)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -17,15 +20,24 @@ class Profile(models.Model):
     team = models.ForeignKey("Team", on_delete=models.CASCADE, null=True, blank=True, related_name="profiles")
     is_deleted = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Team(models.Model):
     name = models.CharField(max_length=10, default="team")
     presentation = models.OneToOneField("Presentation", on_delete=models.CASCADE, related_name="team")
 
+    def __str__(self):
+        return str(self.name) + str(self.pk)
+
 
 class Subject(models.Model):
     title = models.CharField(max_length=512)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="subjects")
+
+    def __str__(self):
+        return self.title
 
 
 class Presentation(models.Model):
@@ -39,7 +51,10 @@ class Presentation(models.Model):
         for i in self.ratings.all():
             le += 1
             s += i.rating
-        return s/le
+        return s / le
+
+    def __str__(self):
+        return "Presentation of " + str(self.subject) + " by " + str(self.team)
 
 
 class File(models.Model):
@@ -47,12 +62,18 @@ class File(models.Model):
     link = models.CharField(max_length=1024)
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="files")
 
+    def __str__(self):
+        return self.name
+
 
 class Comment(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="comments")
     date_time = jmodels.jDateTimeField(auto_now_add=True)
     text = models.TextField(max_length=5000)
+
+    def __str__(self):
+        return "Comment from " + str(self.profile) + " on " + str(self.presentation)
 
 
 class Rating(models.Model):
@@ -62,3 +83,6 @@ class Rating(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="ratings")
     rating = models.IntegerField()
+
+    def __str__(self):
+        return "Rating from " + str(self.profile) + " on " + str(self.presentation)
