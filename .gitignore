@@ -10,4 +10,5 @@ apiv1/migrations
 git/
 .git/
 apiv1/__pycache__/
+shive_back/__pycache__/
 media
