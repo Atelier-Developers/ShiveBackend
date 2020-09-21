@@ -6,4 +6,5 @@ from .views import ProfileCreateView
 urlpatterns = [
     path('signup/', ProfileCreateView.as_view()),
     path('login/', obtain_auth_token),
+
 ]
