@@ -19,6 +19,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length=15)
     team = models.ForeignKey("Team", on_delete=models.CASCADE, null=True, blank=True, related_name="profiles")
     is_deleted = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -34,7 +35,7 @@ class Team(models.Model):
 
 class Subject(models.Model):
     title = models.CharField(max_length=512)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="subjects")
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="subjects", null=True)
 
     def __str__(self):
         return self.title

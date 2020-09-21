@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer, SubjectSerializer
 
-from .models import Profile, User
+from .models import Profile, User, Semester
 
 
 # Create your views here.
@@ -29,3 +30,18 @@ class ProfileCreateView(CreateAPIView):
                                        phone=request.data.get('phone'))
 
         return Response({"msg": "profile created"}, status=status.HTTP_201_CREATED)
+
+
+class SubjectCreateView(CreateAPIView):
+    serializer_class = SubjectSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = SubjectSerializer(data=request.data)
+        if serializer.is_valid():
+            s = Semester.objects.last()
+            serializer.save(semester=s)
+
+            return Response({"msg": "subject created"}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response({"msg": "something went wrong"}, status=status.HTTP_400_BAD_REQUEST)

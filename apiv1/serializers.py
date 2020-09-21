@@ -15,3 +15,10 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = ["name", "student_no", "phone", "password"]
 
     password = serializers.CharField(max_length=256)
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ["title"]
+
