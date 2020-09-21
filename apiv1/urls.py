@@ -2,7 +2,8 @@ from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import ProfileCreateView, SubjectCreateView, SubjectListView, SubjectUpdateView, SubjectDeleteView, \
-    ProfileListView, TeamListView, NotGroupedProfileListView, TeamCreateView
+    ProfileListView, TeamListView, NotGroupedProfileListView, TeamCreateView, RemoveFromListDestroyView, \
+    MoveProfileToTeamCreateView
 
 urlpatterns = [
     path('signup/', ProfileCreateView.as_view()),
@@ -13,7 +14,10 @@ urlpatterns = [
     path('subject/delete/<int:pk>', SubjectDeleteView.as_view()),
     path('profile/list/all/', ProfileListView.as_view()),
     path('profile/list/single/', NotGroupedProfileListView.as_view()),
+    path('profile/move/', MoveProfileToTeamCreateView.as_view()),
     path('team/list/', TeamListView.as_view()),
     path('team/create/', TeamCreateView.as_view()),
+    path('team/remove-profile/<int:pk>', RemoveFromListDestroyView.as_view()),
+
 
 ]

@@ -114,3 +114,39 @@ class TeamCreateView(CreateAPIView):
             p.save()
 
         return Response({"msg": "team created"}, status=status.HTTP_201_CREATED)
+
+
+class RemoveFromListDestroyView(DestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.team = None
+        instance.save()
+
+        return Response({"msg": "profile removed from team"}, status=status.HTTP_200_OK)
+
+
+class MoveProfileToTeamCreateView(CreateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    def post(self, request, *args, **kwargs):
+        print("yay", str(self.request.data)[0])
+
+        if str(self.request.data)[0] == '{':
+            p = Profile.objects.get(pk=self.request.data.get("profile"))
+            t = Team.objects.get(pk=self.request.data.get("team"))
+            p.team = t
+            p.save()
+        elif str(self.request.data)[0] == '[':
+            for i in self.request.data:
+                p = Profile.objects.get(pk=i["profile"])
+                t = Team.objects.get(pk=i["team"])
+                p.team = t
+                p.save()
+
+        return Response({"msg": "profile team changed"}, status=status.HTTP_200_OK)
