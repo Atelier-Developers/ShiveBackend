@@ -24,7 +24,7 @@ class Team(models.Model):
 
 class Subject(models.Model):
     title = models.CharField(max_length=512)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name="subjects")
 
 
 class Presentation(models.Model):
