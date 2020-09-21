@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from django.db.models import Count
 from apiv1.permissions import IsAdmin, IsAlive
-from .serializers import SignupSerializer, SubjectSerializer
+from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer
 
-from .models import Profile, User, Semester
+from .models import Profile, User, Semester, Subject, Team
 
 
 # Create your views here.
@@ -47,3 +47,70 @@ class SubjectCreateView(CreateAPIView):
         print(serializer.errors)
         return Response({"msg": "something went wrong"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class SubjectListView(ListAPIView):
+    serializer_class = SubjectSerializer
+    queryset = Subject.objects.filter(semester=Semester.objects.last()).order_by("pk")
+
+
+class SubjectUpdateView(UpdateAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.title = request.data.get("title")
+        instance.save()
+        # serializer = self.get_serializer(instance)
+        # serializer.is_valid(raise_exception=True)
+        # self.perform_update(serializer)
+
+        return Response({"msg": "subject updated"}, status=status.HTTP_200_OK)
+
+
+class SubjectDeleteView(DestroyAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+
+        return Response({"msg": "subject deleted"}, status=status.HTTP_200_OK)
+
+
+class ProfileListView(ListAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated, IsAlive, IsAdmin]
+    queryset = Profile.objects.all()
+
+
+class NotGroupedProfileListView(ListAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated, IsAlive, IsAdmin]
+    queryset = Profile.objects.filter(team=None)
+
+
+class TeamListView(ListAPIView):
+    serializer_class = TeamSerializer
+    permission_classes = [IsAuthenticated, IsAlive]
+    queryset = Team.objects.all()
+
+
+class TeamCreateView(CreateAPIView):
+    serializer_class = ProfileSerializer(many=True)
+    permission_classes = [IsAuthenticated, IsAlive, IsAdmin]
+
+    def post(self, request, *args, **kwargs):
+        team = Team.objects.create()
+
+        for pk in self.request.data:
+            p = Profile.objects.get(pk=pk)
+            p.team = team
+            p.save()
+
+        return Response({"msg": "team created"}, status=status.HTTP_201_CREATED)

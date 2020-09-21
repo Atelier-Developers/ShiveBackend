@@ -6,13 +6,13 @@ from .models import Profile, Team, Semester, Subject, Presentation, File, Commen
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["name", "student_no", "phone"]
+        fields = ["pk", "name", "student_no", "phone", "team"]
 
 
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["name", "student_no", "phone", "password"]
+        fields = ["pk", "name", "student_no", "phone", "password"]
 
     password = serializers.CharField(max_length=256)
 
@@ -20,5 +20,12 @@ class SignupSerializer(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ["title"]
+        fields = ["pk", "title"]
 
+
+class TeamSerializer(serializers.ModelSerializer):
+    profiles = ProfileSerializer(many=True)
+
+    class Meta:
+        model = Team
+        fields = ["pk", "name", "presentation", "profiles"]

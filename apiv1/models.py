@@ -27,10 +27,11 @@ class Profile(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=10, default="team")
-    presentation = models.OneToOneField("Presentation", on_delete=models.CASCADE, related_name="team")
+    presentation = models.OneToOneField("Presentation", on_delete=models.CASCADE, related_name="team", null=True,
+                                        blank=True)
 
     def __str__(self):
-        return str(self.name) + str(self.pk)
+        return str(self.name) + " " + str(self.pk)
 
 
 class Subject(models.Model):
