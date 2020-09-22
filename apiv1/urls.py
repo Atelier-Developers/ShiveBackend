@@ -1,13 +1,18 @@
 from django.urls import path, include
-from rest_framework.authtoken.views import obtain_auth_token
-
+from rest_framework.authtoken.views import ObtainAuthToken
+from .permissions import IsAlive
 from .views import ProfileCreateView, SubjectCreateView, SubjectListView, SubjectUpdateView, SubjectDeleteView, \
     ProfileListView, TeamListView, NotGroupedProfileListView, TeamCreateView, RemoveFromListDestroyView, \
     MoveProfileToTeamCreateView
 
+
+login = ObtainAuthToken
+login.permission_classes = [IsAlive]
+Login = login.as_view()
+
 urlpatterns = [
     path('signup/', ProfileCreateView.as_view()),
-    path('login/', obtain_auth_token),
+    path('login/', Login),
     path('subject/create/', SubjectCreateView.as_view()),
     path('subject/list/', SubjectListView.as_view()),
     path('subject/update/<int:pk>', SubjectUpdateView.as_view()),
