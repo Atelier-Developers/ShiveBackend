@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
 from apiv1.permissions import IsAdmin, IsAlive
-from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer
+from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer, PresentationSerializer
 
 from .models import Profile, User, Semester, Subject, Team, Presentation
 
@@ -202,3 +202,11 @@ class AssignSubjectToTeamCreateView(CreateAPIView):
             pass
 
         return Response({"msg": "presentation created"}, status=status.HTTP_201_CREATED)
+
+
+class PresentationListView(ListAPIView):
+    permission_classes = []
+    queryset = Presentation.objects.all('-deadline')
+    serializer_class = PresentationSerializer
+
+

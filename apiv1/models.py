@@ -31,7 +31,7 @@ class Team(models.Model):
                                         blank=True)
 
     def __str__(self):
-        return str(self.name) + " " + str(self.pk)
+        return str(self.name) + str(self.pk)
 
 
 class Subject(models.Model):

@@ -29,3 +29,11 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ["pk", "name", "presentation", "profiles"]
+
+
+class PresentationSerializer(serializers.ModelSerializer):
+    subject = SubjectSerializer()
+
+    class Meta:
+        model = Presentation
+        fields = ['pk', 'subject', 'deadline', 'rate']
