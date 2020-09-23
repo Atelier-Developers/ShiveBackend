@@ -196,13 +196,18 @@ class PresentationCreateView(CreateAPIView):
         t = Team.objects.get(pk=self.request.data.get("team"))
         s = Subject.objects.get(pk=self.request.data.get("subject"))
 
-        p = Presentation.objects.create(subject=s)
-        t.presentation = p
-        t.save()
+        if t.presentation:
+            t.presentation.subject = s
+            t.save()
+
+        else:
+            p = Presentation.objects.create(subject=s)
+            t.presentation = p
+            t.save()
 
         try:
-            p.deadline = self.request.data.get("deadline")
-            p.save()
+            t.presentation.deadline = self.request.data.get("deadline")
+            t.presentation.save()
         except:
             pass
 
@@ -216,7 +221,7 @@ class PresentationListView(ListAPIView):
 
 
 class PresentationUpdateView(UpdateAPIView):
-    queryset = Subject.objects.all()
+    queryset = Presentation.objects.all()
     serializer_class = PresentationSerializer
     lookup_field = "pk"
     permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
@@ -227,3 +232,18 @@ class PresentationUpdateView(UpdateAPIView):
         instance.save()
 
         return Response({"msg": "presentation updated"}, status=status.HTTP_200_OK)
+
+
+class PresentationDeleteView(DestroyAPIView):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.presentation.subject = None
+        instance.presentation.save()
+        instance.save()
+
+        return Response({"msg": "subject removed from presentation"}, status=status.HTTP_200_OK)
