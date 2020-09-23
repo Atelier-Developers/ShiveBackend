@@ -7,7 +7,7 @@ from .views import ProfileCreateView, SubjectCreateView, SubjectListView, Subjec
     MoveProfileToTeamCreateView, PendingProfileListView, AssignSubjectToTeamCreateView
 
 login = ObtainAuthToken
-login.permission_classes = [IsAlive]
+# login.permission_classes = [IsAlive]
 Login = login.as_view()
 
 urlpatterns = [
