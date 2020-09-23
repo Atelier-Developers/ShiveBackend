@@ -24,7 +24,16 @@ SECRET_KEY = '^*&-a&gt-*ucg8ydw90w2bl@s6g830us9%%na!bxx5890=@mhj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://shive.atelier-team.ir', 'https://shive.atelier-team.ir'
+]
+CORS_ORIGIN_REGEX_WHITELIST = [
+    'http://shive.atelier-team.ir', 'https://shive.atelier-team.ir'
+]
 
 # Application definition
 
@@ -36,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'rest_framework.authtoken',
     'rest_framework',
+    'corsheaders',
     "apiv1",
     'django.contrib.staticfiles',
 ]
@@ -45,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -73,10 +84,21 @@ WSGI_APPLICATION = 'shive_back.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+#DATABASES = {
+ #  'default': {
+  #     'ENGINE': 'django.db.backends.sqlite3',
+   #    'NAME': BASE_DIR+ '/' +'db.sqlite3',
+   #}
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'shive',
+        'USER': 'mohamad',
+        'PASSWORD': '1',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -114,7 +136,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
