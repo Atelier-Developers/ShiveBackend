@@ -5,7 +5,8 @@ from .permissions import IsAlive
 from .views import ProfileCreateView, SubjectCreateView, SubjectListView, SubjectUpdateView, SubjectDeleteView, \
     ProfileListView, TeamListView, NotGroupedProfileListView, TeamCreateView, RemoveFromListDestroyView, \
     MoveProfileToTeamCreateView, PendingProfileListView, PresentationListView, SubjectRemainingListView, \
-    PresentationCreateView, PresentationUpdateView, PresentationDeleteView
+    PresentationCreateView, PresentationUpdateView, PresentationDeleteView, CommentCreateView, CommentListView, \
+    TeamEditCreateView, TeamDeleteView
 
 login = ObtainAuthToken
 # login.permission_classes = [IsAlive]
@@ -25,10 +26,14 @@ urlpatterns = [
     path('profile/move/', MoveProfileToTeamCreateView.as_view()),
     path('team/list/', TeamListView.as_view()),
     path('team/create/', TeamCreateView.as_view()),
+    path('team/edit/<int:pk>', TeamEditCreateView.as_view()),
+    path('team/delete/<int:pk>', TeamDeleteView.as_view()),
     path('team/remove-profile/<int:pk>', RemoveFromListDestroyView.as_view()),
     path('presentation/create/', PresentationCreateView.as_view()),
     path('presentation/list/all/', PresentationListView.as_view()),
     path('presentation/update/<int:pk>', PresentationUpdateView.as_view()),
     path('presentation/delete/<int:pk>', PresentationDeleteView.as_view()),
+    path('presentation/comment/create/<int:pk>', CommentCreateView.as_view()),
+    path('presentation/comment/list/<int:pk>', CommentListView.as_view()),
 
 ]

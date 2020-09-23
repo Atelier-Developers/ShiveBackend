@@ -5,9 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
 from apiv1.permissions import IsAdmin, IsAlive
-from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer, PresentationSerializer
+from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer, PresentationSerializer, \
+    CommentSerializer
 
-from .models import Profile, User, Semester, Subject, Team, Presentation
+from .models import Profile, User, Semester, Subject, Team, Presentation, Comment
 
 
 # Create your views here.
@@ -119,6 +120,56 @@ class TeamCreateView(CreateAPIView):
             p.save()
 
         return Response({"msg": "team created"}, status=status.HTTP_201_CREATED)
+
+
+class TeamDeleteView(DestroyAPIView):
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+    queryset = Team.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+
+        return Response({"msg": "team deleted"}, status=status.HTTP_200_OK)
+
+
+class TeamEditCreateView(CreateAPIView):
+    serializer_class = TeamSerializer
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    # profiles - subject - deadline
+    def post(self, request, *args, **kwargs):
+        t = Team.objects.get(pk=self.kwargs.get("pk"))
+
+        a = t.profiles.all()
+        b = self.request.data.get("profiles")
+
+        if t.presentation:
+            p = t.presentation
+        else:
+            p = Presentation.objects.create()
+            t.presentation = p
+            t.save()
+
+        if self.request.data.get("subject"):
+            p.subject = self.request.data.get("subject")
+
+        if self.request.data.get("deadline"):
+            p.deadline = self.request.data.get("deadline")
+
+        for i in b:
+            u = Profile.objects.get(pk=i)
+            if u not in a:
+                u.team = t
+                u.save()
+
+        for i in a:
+            if i.pk not in b:
+                i.team = None
+                i.save()
+
+        return Response({"msg": "team edited"}, status=status.HTTP_200_OK)
 
 
 class RemoveFromListDestroyView(DestroyAPIView):
@@ -247,3 +298,25 @@ class PresentationDeleteView(DestroyAPIView):
         instance.save()
 
         return Response({"msg": "subject removed from presentation"}, status=status.HTTP_200_OK)
+
+
+class CommentCreateView(CreateAPIView):
+    serializer_class = CommentSerializer
+    lookup_field = "pk"
+    queryset = Presentation.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        instance = self.get_object()
+        p = Profile.objects.get(user=self.request.user)
+        Comment.objects.create(presentation=instance, profile=p, text=self.request.data.get("text"))
+
+        return Response({"msg": "comment created"}, status=status.HTTP_201_CREATED)
+
+
+class CommentListView(ListAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        p = Presentation.objects.get(pk=self.kwargs.get("pk"))
+        return p.comments.all()

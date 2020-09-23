@@ -17,7 +17,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=256)
     student_no = models.IntegerField()
     phone = models.CharField(max_length=15)
-    team = models.ForeignKey("Team", on_delete=models.CASCADE, null=True, blank=True, related_name="profiles")
+    team = models.ForeignKey("Team", on_delete=models.SET_NULL, null=True, blank=True, related_name="profiles")
     is_deleted = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

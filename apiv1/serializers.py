@@ -23,17 +23,26 @@ class SubjectSerializer(serializers.ModelSerializer):
         fields = ["pk", "title"]
 
 
-class TeamSerializer(serializers.ModelSerializer):
-    profiles = ProfileSerializer(many=True)
-
-    class Meta:
-        model = Team
-        fields = ["pk", "name", "presentation", "profiles"]
-
-
 class PresentationSerializer(serializers.ModelSerializer):
     subject = SubjectSerializer()
 
     class Meta:
         model = Presentation
         fields = ['pk', 'subject', 'deadline', 'rate']
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    profiles = ProfileSerializer(many=True)
+    presentation = PresentationSerializer()
+
+    class Meta:
+        model = Team
+        fields = ["pk", "presentation", "profiles"]
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer
+
+    class Meta:
+        model = Comment
+        fields = ["pk", "profile", "presentation", "date_time", "text"]
