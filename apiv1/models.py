@@ -44,7 +44,7 @@ class Subject(models.Model):
 
 class Presentation(models.Model):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="Presentation")
-    deadline = jmodels.jDateTimeField()
+    deadline = jmodels.jDateTimeField(null=True, blank=True)
 
     @property
     def rate(self):

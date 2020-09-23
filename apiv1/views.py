@@ -7,7 +7,7 @@ from django.db.models import Count
 from apiv1.permissions import IsAdmin, IsAlive
 from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer
 
-from .models import Profile, User, Semester, Subject, Team
+from .models import Profile, User, Semester, Subject, Team, Presentation
 
 
 # Create your views here.
@@ -150,3 +150,55 @@ class MoveProfileToTeamCreateView(CreateAPIView):
                 p.save()
 
         return Response({"msg": "profile team changed"}, status=status.HTTP_200_OK)
+
+
+class PendingProfileListView(ListAPIView):
+    permission_classes = [IsAdmin, IsAlive, IsAuthenticated]
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.filter(is_deleted=True)
+
+
+class AcceptProfileCreateView(CreateAPIView):
+    permission_classes = [IsAdmin, IsAlive, IsAuthenticated]
+    serializer_class = ProfileSerializer
+
+    def post(self, request, *args, **kwargs):
+        for i in self.request.data:
+            p = Profile.objects.get(pk=i)
+            p.is_deleted = False
+            p.save()
+
+        return Response({"msg": "profiles approved"}, status=status.HTTP_200_OK)
+
+
+class DeleteProfileCreateView(CreateAPIView):
+    permission_classes = [IsAdmin, IsAlive, IsAuthenticated]
+    serializer_class = ProfileSerializer
+
+    def post(self, request, *args, **kwargs):
+        for i in self.request.data:
+            p = Profile.objects.get(pk=i)
+            p.delete()
+
+        return Response({"msg": "profiles deleted"}, status=status.HTTP_200_OK)
+
+
+class AssignSubjectToTeamCreateView(CreateAPIView):
+    permission_classes = [IsAdmin, IsAlive, IsAuthenticated]
+    serializer_class = SubjectSerializer
+
+    def post(self, request, *args, **kwargs):
+        t = Team.objects.get(pk=self.request.data.get("team"))
+        s = Subject.objects.get(pk=self.request.data.get("subject"))
+
+        p = Presentation.objects.create(subject=s)
+        t.presentation = p
+        t.save()
+
+        try:
+            p.deadline = self.request.data.get("deadline")
+            p.save()
+        except:
+            pass
+
+        return Response({"msg": "presentation created"}, status=status.HTTP_201_CREATED)
