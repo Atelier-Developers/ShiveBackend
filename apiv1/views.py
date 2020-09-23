@@ -53,6 +53,11 @@ class SubjectListView(ListAPIView):
     queryset = Subject.objects.filter(semester=Semester.objects.last()).order_by("pk")
 
 
+class SubjectRemainingListView(ListAPIView):
+    serializer_class = SubjectSerializer
+    queryset = Subject.objects.filter(semester=Semester.objects.last(), presentation=None).order_by("pk")
+
+
 class SubjectUpdateView(UpdateAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
@@ -183,7 +188,7 @@ class DeleteProfileCreateView(CreateAPIView):
         return Response({"msg": "profiles deleted"}, status=status.HTTP_200_OK)
 
 
-class AssignSubjectToTeamCreateView(CreateAPIView):
+class PresentationCreateView(CreateAPIView):
     permission_classes = [IsAdmin, IsAlive, IsAuthenticated]
     serializer_class = SubjectSerializer
 
@@ -210,3 +215,15 @@ class PresentationListView(ListAPIView):
     serializer_class = PresentationSerializer
 
 
+class PresentationUpdateView(UpdateAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = PresentationSerializer
+    lookup_field = "pk"
+    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.subject = request.data.get("subject")
+        instance.save()
+
+        return Response({"msg": "presentation updated"}, status=status.HTTP_200_OK)

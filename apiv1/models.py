@@ -43,7 +43,7 @@ class Subject(models.Model):
 
 
 class Presentation(models.Model):
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="Presentation")
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation")
     deadline = jmodels.jDateTimeField(null=True, blank=True)
 
     @property
