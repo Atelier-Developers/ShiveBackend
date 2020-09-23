@@ -216,7 +216,7 @@ class PresentationCreateView(CreateAPIView):
 
 class PresentationListView(ListAPIView):
     permission_classes = []
-    queryset = Presentation.objects.all('-deadline')
+    queryset = Presentation.objects.all().order_by('-deadline')
     serializer_class = PresentationSerializer
 
 
