@@ -2,11 +2,7 @@ from django.urls import path, include
 from rest_framework.authtoken.views import ObtainAuthToken
 from .permissions import IsAlive
 
-from .views import ProfileCreateView, SubjectCreateView, SubjectListView, SubjectUpdateView, SubjectDeleteView, \
-    ProfileListView, TeamListView, NotGroupedProfileListView, TeamCreateView, RemoveFromListDestroyView, \
-    MoveProfileToTeamCreateView, PendingProfileListView, PresentationListView, SubjectRemainingListView, \
-    PresentationCreateView, PresentationUpdateView, PresentationDeleteView, CommentCreateView, CommentListView, \
-    TeamEditCreateView, TeamDeleteView
+from .views import *
 
 login = ObtainAuthToken
 # login.permission_classes = [IsAlive]
@@ -24,6 +20,8 @@ urlpatterns = [
     path('profile/list/pending/', PendingProfileListView.as_view()),
     path('profile/list/single/', NotGroupedProfileListView.as_view()),
     path('profile/move/', MoveProfileToTeamCreateView.as_view()),
+    path('profile/accept/', AcceptProfileCreateView.as_view()),
+    path('profile/reject/', DeleteProfileCreateView.as_view()),
     path('team/list/', TeamListView.as_view()),
     path('team/create/', TeamCreateView.as_view()),
     path('team/edit/<int:pk>', TeamEditCreateView.as_view()),
