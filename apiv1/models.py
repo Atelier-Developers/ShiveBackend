@@ -49,6 +49,8 @@ class Presentation(models.Model):
 
     @property
     def rate(self):
+        if not self.ratings.all():
+            return 0
         s = 0
         le = 0
         for i in self.ratings.all():
