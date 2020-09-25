@@ -177,9 +177,11 @@ class TeamEditCreateView(CreateAPIView):
 
         if self.request.data.get("subject"):
             p.subject = p.subject = Subject.objects.get(pk=self.request.data.get("subject"))
+            p.save()
 
         if self.request.data.get("deadline"):
             p.deadline = self.request.data.get("deadline")
+            p.save()
 
         for i in b:
             u = Profile.objects.get(pk=i)
