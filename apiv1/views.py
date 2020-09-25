@@ -122,7 +122,7 @@ class TeamCreateView(CreateAPIView):
             team.save()
 
         if self.request.data.get("subject"):
-            p.subject = self.request.data.get("subject")
+            p.subject = Subject.objects.get(pk=self.request.data.get("subject"))
 
         if self.request.data.get("deadline"):
             p.deadline = self.request.data.get("deadline")
@@ -173,7 +173,7 @@ class TeamEditCreateView(CreateAPIView):
             t.save()
 
         if self.request.data.get("subject"):
-            p.subject = self.request.data.get("subject")
+            p.subject = p.subject = Subject.objects.get(pk=self.request.data.get("subject"))
 
         if self.request.data.get("deadline"):
             p.deadline = self.request.data.get("deadline")
