@@ -27,7 +27,7 @@ class Profile(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=10, default="team")
-    presentation = models.OneToOneField("Presentation", on_delete=models.CASCADE, related_name="team", null=True,
+    presentation = models.OneToOneField("Presentation", on_delete=models.SET_NULL, related_name="team", null=True,
                                         blank=True)
 
     def __str__(self):
