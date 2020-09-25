@@ -45,7 +45,7 @@ class Subject(models.Model):
 class Presentation(models.Model):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation", null=True,
                                    blank=True)
-    deadline = jmodels.jDateTimeField(null=True, blank=True)
+    deadline = models.DateField(null=True, blank=True)
 
     @property
     def rate(self):
@@ -74,7 +74,7 @@ class File(models.Model):
 class Comment(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="comments")
-    date_time = jmodels.jDateTimeField(auto_now_add=True)
+    date_time = models.DateTimeField(auto_now_add=True)
     text = models.TextField(max_length=5000)
 
     def __str__(self):

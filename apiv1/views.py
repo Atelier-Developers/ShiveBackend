@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
@@ -114,7 +114,20 @@ class TeamCreateView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         team = Team.objects.create()
 
-        for pk in self.request.data:
+        if team.presentation:
+            p = team.presentation
+        else:
+            p = Presentation.objects.create()
+            team.presentation = p
+            team.save()
+
+        if self.request.data.get("subject"):
+            p.subject = self.request.data.get("subject")
+
+        if self.request.data.get("deadline"):
+            p.deadline = self.request.data.get("deadline")
+
+        for pk in self.request.data.get("profiles"):
             p = Profile.objects.get(pk=pk)
             p.team = team
             p.save()
@@ -132,6 +145,13 @@ class TeamDeleteView(DestroyAPIView):
         instance.delete()
 
         return Response({"msg": "team deleted"}, status=status.HTTP_200_OK)
+
+
+class TeamRetrieveView(RetrieveAPIView):
+    serializer_class = TeamSerializer
+    queryset = Team.objects.all()
+    lookup_field = 'pk'
+    lookup_url_kwarg = 'pk'
 
 
 class TeamEditCreateView(CreateAPIView):
