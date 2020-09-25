@@ -144,6 +144,7 @@ class TeamDeleteView(DestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
+        instance.presentation.delete()
         instance.delete()
 
         return Response({"msg": "team deleted"}, status=status.HTTP_200_OK)
