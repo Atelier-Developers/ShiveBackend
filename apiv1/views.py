@@ -98,7 +98,7 @@ class ProfileListView(ListAPIView):
 class NotGroupedProfileListView(ListAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated, IsAlive, IsAdmin]
-    queryset = Profile.objects.filter(team=None)
+    queryset = Profile.objects.filter(team=None, is_deleted=False, is_admin=False)
 
 
 class TeamListView(ListAPIView):
