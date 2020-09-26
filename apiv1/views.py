@@ -117,8 +117,8 @@ class TeamCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated, IsAlive, IsAdmin]
 
     def post(self, request, *args, **kwargs):
-        pres = Presentation.objects.create()
-        team = Team.objects.create()
+        pres = Presentation()
+        team = Team()
         pres.save()
         team.save()
         team.presentation = pres
