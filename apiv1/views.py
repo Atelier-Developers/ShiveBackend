@@ -426,4 +426,4 @@ class CurrentPresentationGetView(RetrieveAPIView):
         if all_pres:
             return all_pres.first()
         else:
-            return Response({"msg": "no presentation"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"msg": "no presentation"}, status=status.HTTP_304_NOT_MODIFIED)
