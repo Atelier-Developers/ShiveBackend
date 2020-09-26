@@ -77,3 +77,4 @@ class MyAuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+

@@ -17,6 +17,7 @@ urlpatterns = [
     path('subject/update/<int:pk>', SubjectUpdateView.as_view()),
     path('subject/delete/<int:pk>', SubjectDeleteView.as_view()),
     path('profile/list/all/', ProfileListView.as_view()),
+    path('profile/role/', RoleApiView.as_view()),
     path('profile/list/pending/', PendingProfileListView.as_view()),
     path('profile/list/single/', NotGroupedProfileListView.as_view()),
     path('profile/move/', MoveProfileToTeamCreateView.as_view()),

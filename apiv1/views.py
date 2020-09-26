@@ -392,3 +392,20 @@ class MyObtainAuthToken(APIView):
             return Response({"msg": "profile is not accepted yet"}, status=status.HTTP_403_FORBIDDEN)
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
+
+
+class RoleApiView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = Profile
+
+    def get(self, request, *args, **kwargs):
+        p = Profile.objects.get(user=self.request.user)
+
+        if p.is_admin:
+            return Response({"role": "admin"}, status=status.HTTP_200_OK)
+
+        elif p.is_deleted:
+            return Response({"role": "not accepted"}, status=status.HTTP_200_OK)
+
+        else:
+            return Response({"role": "accepted"}, status=status.HTTP_200_OK)
