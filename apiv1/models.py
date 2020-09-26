@@ -95,3 +95,10 @@ class Rating(models.Model):
 
 class Test(models.Model):
     file = models.FileField()
+    link = models.CharField(default="")
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None, *args, **kwargs):
+        super(Test, self).save(*args, **kwargs)
+        self.link = "https://cdn.atelier-team.ir/shive/" + str(self.file.name)
+        self.save()
