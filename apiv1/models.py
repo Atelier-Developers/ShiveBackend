@@ -59,7 +59,7 @@ class Presentation(models.Model):
         return s / le
 
     def __str__(self):
-        return "Presentation of " + str(self.subject) + " by " + str(self.team)
+        return "Presentation of " + str(self.subject) + " by " + str(self.team.first())
 
 
 class File(models.Model):
