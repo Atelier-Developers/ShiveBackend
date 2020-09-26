@@ -4,6 +4,7 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
+import datetime
 from apiv1.permissions import IsAdmin, IsAlive
 from .serializers import *
 from rest_framework import parsers, renderers
@@ -409,3 +410,18 @@ class RoleApiView(ListAPIView):
 
         else:
             return Response({"role": "accepted"}, status=status.HTTP_200_OK)
+
+
+class CurrentPresentationGetView(RetrieveAPIView):
+    serializer_class = PresentationSerializer
+
+    # permission_classes =
+
+    def get_queryset(self):
+        today = datetime.date.today()
+        all_pres = Presentation.objects.filter(deadline__gte=today).order_by('deadline')
+
+        if all_pres:
+            return all_pres.first()
+        else:
+            return Response({"msg": "no presentation"}, status=status.HTTP_404_NOT_FOUND)
