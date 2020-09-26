@@ -460,6 +460,12 @@ class RatingCreateView(CreateAPIView):
         pres = self.get_object()
         p = Profile.objects.get(user=self.request.user)
 
-        Rating.objects.create(presentation=pres, profile=p, rating=int(self.request.data.get("rating")))
+        try:
+            ra = Rating.objects.get(presentation=pres, profile=p)
+        except Rating.DoesNotExist:
+            ra = Rating.objects.create(presentation=pres, profile=p)
+
+        ra.rating = int(self.request.data.get("rating"))
+        ra.save()
 
         return Response({"msg": "ok"}, status=status.HTTP_200_OK)
