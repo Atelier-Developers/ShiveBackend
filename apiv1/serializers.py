@@ -81,11 +81,10 @@ class MyAuthTokenSerializer(serializers.Serializer):
 
 class CurrentTeamSerializer(serializers.ModelSerializer):
     profiles = ProfileSerializer(many=True)
-    presentation = PresentationSerializer()
 
     class Meta:
         model = Team
-        fields = ["pk", "presentation", "profiles"]
+        fields = ["pk", "profiles"]
 
 
 class CurrentPresentationSerializer(serializers.ModelSerializer):
