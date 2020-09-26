@@ -413,7 +413,7 @@ class RoleApiView(ListAPIView):
 
 
 class CurrentPresentationGetView(ListAPIView):
-    serializer_class = PresentationSerializer
+    serializer_class = CurrentPresentationSerializer
 
     # permission_classes =
 
@@ -427,3 +427,15 @@ class CurrentPresentationGetView(ListAPIView):
             return all_pres[:1]
         else:
             return None
+
+
+class ArchiveListView(ListAPIView):
+    serializer_class = CurrentPresentationSerializer
+
+    def get_queryset(self):
+        today = datetime.date.today()
+        # print("today: ", today)
+        all_pres = Presentation.objects.filter(deadline__lt=today).order_by('-deadline')
+        # print(all_pres)
+
+        return all_pres

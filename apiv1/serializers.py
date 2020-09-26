@@ -78,3 +78,20 @@ class MyAuthTokenSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
 
+
+class CurrentTeamSerializer(serializers.ModelSerializer):
+    profiles = ProfileSerializer(many=True)
+    presentation = PresentationSerializer()
+
+    class Meta:
+        model = Team
+        fields = ["pk", "presentation", "profiles"]
+
+
+class CurrentPresentationSerializer(serializers.ModelSerializer):
+    team = CurrentTeamSerializer()
+    subject = SubjectSerializer()
+
+    class Meta:
+        model = Presentation
+        fields = ['pk', 'subject', 'deadline', 'rate', 'team']

@@ -43,8 +43,7 @@ class Subject(models.Model):
 
 
 class Presentation(models.Model):
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation", null=True,
-                                   blank=True)
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation")
     deadline = models.DateField(null=True, blank=True)
 
     @property

@@ -35,6 +35,7 @@ urlpatterns = [
     path('presentation/delete/<int:pk>', PresentationDeleteView.as_view()),
     path('presentation/comment/create/<int:pk>', CommentCreateView.as_view()),
     path('presentation/comment/list/<int:pk>', CommentListView.as_view()),
-    path('presentation/current/', CurrentPresentationGetView.as_view())
+    path('presentation/current/', CurrentPresentationGetView.as_view()),
+    path('presentation/archive/', ArchiveListView.as_view()),
 
 ]
