@@ -117,16 +117,17 @@ class TeamCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated, IsAlive, IsAdmin]
 
     def post(self, request, *args, **kwargs):
-        team = Team.objects.create()
+        pres = Presentation.objects.create()
+        team = Team.objects.create(presentation=pres)
 
         # atp = Presentation.objects.filter(team=team)
         # if atp:
         #     p = atp.first()
         # else:
-        pres = Presentation.objects.create()
-        team.presentation = pres
-        team.save()
-        pres.save()
+        # pres = Presentation.objects.create()
+        # team.presentation = pres
+        # team.save()
+        # pres.save()
 
         if self.request.data.get("subject"):
             pres.subject = Subject.objects.get(pk=self.request.data.get("subject"))
