@@ -119,27 +119,27 @@ class TeamCreateView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         team = Team.objects.create()
 
-        atp = Presentation.objects.filter(team=team)
-        if atp:
-            p = atp.first()
-        else:
-            p = Presentation.objects.create()
-            team.presentation = p
-            team.save()
-            p.save()
+        # atp = Presentation.objects.filter(team=team)
+        # if atp:
+        #     p = atp.first()
+        # else:
+        pres = Presentation.objects.create()
+        team.presentation = pres
+        team.save()
+        pres.save()
 
         if self.request.data.get("subject"):
-            p.subject = Subject.objects.get(pk=self.request.data.get("subject"))
-            p.save()
+            pres.subject = Subject.objects.get(pk=self.request.data.get("subject"))
+            pres.save()
 
         if self.request.data.get("deadline"):
-            p.deadline = self.request.data.get("deadline")
-            p.save()
+            pres.deadline = self.request.data.get("deadline")
+            pres.save()
 
         for pk in self.request.data.get("profiles"):
-            p = Profile.objects.get(pk=pk)
-            p.team = team
-            p.save()
+            pro = Profile.objects.get(pk=pk)
+            pro.team = team
+            pro.save()
 
         return Response({"msg": "team created"}, status=status.HTTP_201_CREATED)
 
