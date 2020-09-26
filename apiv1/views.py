@@ -426,4 +426,4 @@ class CurrentPresentationGetView(ListAPIView):
         if all_pres:
             return all_pres[:1]
         else:
-            return Response({"msg": "no presentation"}, status=status.HTTP_304_NOT_MODIFIED)
+            return None
