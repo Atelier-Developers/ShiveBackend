@@ -447,3 +447,19 @@ class ArchiveListView(ListAPIView):
         # print(all_pres)
 
         return all_pres
+
+
+class RatingCreateView(CreateAPIView):
+    serializer_class = PresentationSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+    lookup_url_kwarg = 'pk'
+    queryset = Presentation.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        pres = self.get_object()
+        p = Profile.objects.get(user=self.request.user)
+
+        Rating.objects.create(presentation=pres, profile=p, rating=int(self.request.data.get("rating")))
+
+        return Response({"msg": "ok"}, status=status.HTTP_200_OK)
