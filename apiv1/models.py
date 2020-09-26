@@ -91,3 +91,7 @@ class Rating(models.Model):
 
     def __str__(self):
         return "Rating from " + str(self.profile) + " on " + str(self.presentation)
+
+
+class Test(models.Model):
+    file = models.FileField()
