@@ -412,7 +412,7 @@ class RoleApiView(ListAPIView):
             return Response({"role": "accepted"}, status=status.HTTP_200_OK)
 
 
-class CurrentPresentationGetView(RetrieveAPIView):
+class CurrentPresentationGetView(ListAPIView):
     serializer_class = PresentationSerializer
 
     # permission_classes =
@@ -424,6 +424,6 @@ class CurrentPresentationGetView(RetrieveAPIView):
         print(all_pres)
 
         if all_pres:
-            return all_pres.first()
+            return all_pres[:1]
         else:
             return Response({"msg": "no presentation"}, status=status.HTTP_304_NOT_MODIFIED)
