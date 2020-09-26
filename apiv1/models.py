@@ -27,7 +27,7 @@ class Profile(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=10, default="team")
-    presentation = models.ForeignKey("Presentation", on_delete=models.SET_NULL, related_name="team")
+    presentation = models.ForeignKey("Presentation", on_delete=models.CASCADE, related_name="team")
 
     def __str__(self):
         return str(self.name) + str(self.pk)
