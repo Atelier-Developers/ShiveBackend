@@ -451,7 +451,7 @@ class ArchiveListView(ListAPIView):
 
 class RatingCreateView(CreateAPIView):
     serializer_class = PresentationSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAlive]
     lookup_field = 'pk'
     lookup_url_kwarg = 'pk'
     queryset = Presentation.objects.all()
@@ -469,3 +469,12 @@ class RatingCreateView(CreateAPIView):
         ra.save()
 
         return Response({"msg": "ok"}, status=status.HTTP_200_OK)
+
+
+class ProfileTeamPresentationView(ListAPIView):
+    serializer_class = PresentationSerializer
+    permission_classes = [IsAuthenticated, IsAlive]
+
+    def get_queryset(self):
+        p = Profile.objects.get(user=self.request.user)
+        return p.team.presentation

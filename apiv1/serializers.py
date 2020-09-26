@@ -94,3 +94,4 @@ class CurrentPresentationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Presentation
         fields = ['pk', 'subject', 'deadline', 'rate', 'team']
+

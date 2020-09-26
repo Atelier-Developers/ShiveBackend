@@ -23,6 +23,7 @@ urlpatterns = [
     path('profile/move/', MoveProfileToTeamCreateView.as_view()),
     path('profile/accept/', AcceptProfileCreateView.as_view()),
     path('profile/reject/', DeleteProfileCreateView.as_view()),
+    path('profile/presentation/', ProfileTeamPresentationView.as_view()),
     path('team/list/', TeamListView.as_view()),
     path('team/list/<int:pk>', TeamRetrieveView.as_view()),
     path('team/create/', TeamCreateView.as_view()),
