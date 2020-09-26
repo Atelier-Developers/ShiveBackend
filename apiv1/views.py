@@ -120,7 +120,7 @@ class TeamCreateView(CreateAPIView):
         pres = Presentation()
         team = Team()
         pres.save()
-        team.save()
+        # team.save()
         team.presentation = pres
         pres.save()
         team.save()
