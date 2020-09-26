@@ -118,7 +118,12 @@ class TeamCreateView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         pres = Presentation.objects.create()
-        team = Team.objects.create(presentation=pres)
+        team = Team.objects.create()
+        pres.save()
+        team.save()
+        team.presentation = pres
+        pres.save()
+        team.save()
 
         # atp = Presentation.objects.filter(team=team)
         # if atp:
