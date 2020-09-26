@@ -4,13 +4,13 @@ from .permissions import IsAlive
 
 from .views import *
 
-login = ObtainAuthToken
-# login.permission_classes = [IsAlive]
-Login = login.as_view()
+# login = ObtainAuthToken
+# # login.permission_classes = [IsAlive]
+# Login = login.as_view()
 
 urlpatterns = [
     path('signup/', ProfileCreateView.as_view()),
-    path('login/', Login),
+    path('login/', MyObtainAuthToken.as_view()),
     path('subject/create/', SubjectCreateView.as_view()),
     path('subject/list/all/', SubjectListView.as_view()),
     path('subject/list/remaining/', SubjectRemainingListView.as_view()),

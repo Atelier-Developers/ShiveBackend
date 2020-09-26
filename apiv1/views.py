@@ -5,8 +5,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
 from apiv1.permissions import IsAdmin, IsAlive
-from .serializers import SignupSerializer, SubjectSerializer, ProfileSerializer, TeamSerializer, PresentationSerializer, \
-    CommentSerializer
+from .serializers import *
+from rest_framework import parsers, renderers
+from rest_framework.authtoken.models import Token
+from rest_framework.compat import coreapi, coreschema
+from rest_framework.schemas import ManualSchema
+from rest_framework.views import APIView
 
 from .models import Profile, User, Semester, Subject, Team, Presentation, Comment
 
@@ -345,3 +349,46 @@ class CommentListView(ListAPIView):
     def get_queryset(self):
         p = Presentation.objects.get(pk=self.kwargs.get("pk"))
         return p.comments.all()
+
+
+class MyObtainAuthToken(APIView):
+    throttle_classes = ()
+    permission_classes = ()
+    parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)
+    renderer_classes = (renderers.JSONRenderer,)
+    serializer_class = MyAuthTokenSerializer
+    if coreapi is not None and coreschema is not None:
+        schema = ManualSchema(
+            fields=[
+                coreapi.Field(
+                    name="username",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Username",
+                        description="Valid username for authentication",
+                    ),
+                ),
+                coreapi.Field(
+                    name="password",
+                    required=True,
+                    location='form',
+                    schema=coreschema.String(
+                        title="Password",
+                        description="Valid password for authentication",
+                    ),
+                ),
+            ],
+            encoding="application/json",
+        )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        p = Profile.objects.get(user=user)
+        if p.is_deleted:
+            return Response({"msg": "profile is not accepted yet"}, status=status.HTTP_403_FORBIDDEN)
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key})
