@@ -88,7 +88,7 @@ class CurrentTeamSerializer(serializers.ModelSerializer):
 
 
 class CurrentPresentationSerializer(serializers.ModelSerializer):
-    team = CurrentTeamSerializer()
+    team = CurrentTeamSerializer(many=True)
     subject = SubjectSerializer()
 
     class Meta:
