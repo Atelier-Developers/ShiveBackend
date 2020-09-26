@@ -126,6 +126,7 @@ class TeamCreateView(CreateAPIView):
             p = Presentation.objects.create()
             team.presentation = p
             team.save()
+            p.save()
 
         if self.request.data.get("subject"):
             p.subject = Subject.objects.get(pk=self.request.data.get("subject"))
