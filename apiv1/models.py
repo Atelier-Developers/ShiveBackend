@@ -27,8 +27,7 @@ class Profile(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=10, default="team")
-    presentation = models.ForeignKey("Presentation", on_delete=models.SET_NULL, related_name="team", null=True,
-                                     blank=True)
+    presentation = models.ForeignKey("Presentation", on_delete=models.SET_NULL, related_name="team")
 
     def __str__(self):
         return str(self.name) + str(self.pk)
@@ -43,7 +42,8 @@ class Subject(models.Model):
 
 
 class Presentation(models.Model):
-    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation")
+    subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation", null=True,
+                                   blank=True)
     deadline = models.DateField(null=True, blank=True)
 
     @property
