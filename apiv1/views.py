@@ -419,7 +419,9 @@ class CurrentPresentationGetView(RetrieveAPIView):
 
     def get_queryset(self):
         today = datetime.date.today()
+        print("today: ", today)
         all_pres = Presentation.objects.filter(deadline__gte=today).order_by('deadline')
+        print(all_pres)
 
         if all_pres:
             return all_pres.first()
