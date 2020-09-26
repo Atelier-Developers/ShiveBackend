@@ -95,7 +95,7 @@ class Rating(models.Model):
 
 class Test(models.Model):
     file = models.FileField()
-    link = models.CharField(default="")
+    link = models.CharField(default="", max_length=2048)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None, *args, **kwargs):
