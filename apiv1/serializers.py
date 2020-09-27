@@ -11,8 +11,14 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["pk", "name", "student_no", "phone", "team"]
 
 
+class CProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["pk", "name"]
+
+
 class CommentSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
+    profile = CProfileSerializer()
 
     class Meta:
         model = Comment
