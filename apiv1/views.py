@@ -496,7 +496,7 @@ class FileUploadView(APIView):
     parser_classes = (FileUploadParser,)
     permission_classes = [IsAuthenticated, IsAlive]
 
-    def put(self, request, pk, format=None):
+    def post(self, request, pk, format=None):
         file_obj = request.FILES['file']
         # do some stuff with uploaded file
         File.objects.create(file=file_obj, name=self.request.data.get("name"), link=" sfg",
