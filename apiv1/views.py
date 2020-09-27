@@ -532,10 +532,10 @@ class AnnouncementCreateView(CreateAPIView):
     permission_classes = [IsAlive, IsAuthenticated, IsAdmin]
 
     def create(self, request, *args, **kwargs):
-        Announcement.objects.create(title=self.request.data.get("title"),
+        a = Announcement.objects.create(title=self.request.data.get("title"),
                                     description=self.request.data.get("description"))
 
-        return Response({"msg": "ann created"}, status=status.HTTP_201_CREATED)
+        return Response({"msg": "ann created", "pk": a.pk}, status=status.HTTP_201_CREATED)
 
 
 class AnnFileUploadView(APIView):
