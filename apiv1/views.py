@@ -497,7 +497,7 @@ class FileUploadView(APIView):
     permission_classes = [IsAuthenticated, IsAlive]
 
     def post(self, request, pk, format=None):
-        print(self.request.data)
+        print(request)
         print("bzo boz e qandi")
         # # do some stuff with uploaded file
         # File.objects.create(file=file_obj, name=self.request.data.get("name"), link=" sfg",
