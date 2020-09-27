@@ -45,7 +45,7 @@ class PresentationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Presentation
-        fields = ['pk', 'subject', 'deadline', 'rate', 'comments', 'files']
+        fields = ['pk', 'subject', 'deadline', 'rate', 'description', 'comments', 'files']
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -103,4 +103,4 @@ class CurrentPresentationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Presentation
-        fields = ['pk', 'subject', 'deadline', 'rate', 'comments', 'files', 'team']
+        fields = ['pk', 'subject', 'deadline', 'rate', 'description', 'comments', 'files', 'team']
