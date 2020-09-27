@@ -39,5 +39,6 @@ urlpatterns = [
     path('presentation/current/', CurrentPresentationGetView.as_view()),
     path('presentation/archive/', ArchiveListView.as_view()),
     path('presentation/rate/<int:pk>', RatingCreateView.as_view()),
+    path('presentation/upload/<int:pk>', FileUploadView.as_view()),
 
 ]
