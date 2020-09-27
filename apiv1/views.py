@@ -515,7 +515,7 @@ class SemesterListView(ListAPIView):
 
 
 class PresentationBySemesterListView(ListAPIView):
-    serializer_class = PresentationSerializer
+    serializer_class = CurrentPresentationSerializer
 
     # queryset = Semester.objects.all()
 
