@@ -552,3 +552,15 @@ class AnnFileUploadView(APIView):
                                         announcement=Announcement.objects.get(pk=self.kwargs.get("pk")))
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
+
+
+class FileDeleteView(DestroyAPIView):
+    serializer_class = FileSerializer
+    queryset = File.objects.all()
+    lookup_url_kwarg = 'pk'
+    lookup_field = 'pk'
+
+    def delete(self, request, *args, **kwargs):
+        f = self.get_object()
+        f.delete()
+        return Response({"msg": "deleted"}, status=status.HTTP_200_OK)

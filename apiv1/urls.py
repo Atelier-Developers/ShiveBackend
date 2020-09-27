@@ -43,6 +43,7 @@ urlpatterns = [
     path('presentation/upload/<int:pk>', FileUploadView.as_view()),
     path('semester/list/', SemesterListView.as_view()),
     path('ann/create/', AnnouncementCreateView.as_view()),
+    path('presentation/delete-file/<int:pk>', FileDeleteView.as_view())
 
 
 
