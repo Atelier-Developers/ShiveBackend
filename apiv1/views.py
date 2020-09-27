@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
@@ -494,11 +494,12 @@ class FileCreateView(CreateAPIView):
 
 
 class FileUploadView(APIView):
-    parser_classes = (FileUploadParser,)
+    parser_classes = [MultiPartParser]
     permission_classes = [IsAuthenticated, IsAlive]
 
     def post(self, request, pk, format=None):
         print("bzo boz e qandi")
+        fil = request.data.get("file")
         # # do some stuff with uploaded file
         File.objects.create(name=self.request.data.get("name"), link=" sfg",
                             presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
