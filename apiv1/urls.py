@@ -42,6 +42,8 @@ urlpatterns = [
     path('presentation/rate/<int:pk>', RatingCreateView.as_view()),
     path('presentation/upload/<int:pk>', FileUploadView.as_view()),
     path('semester/list/', SemesterListView.as_view()),
+    path('ann/create/', AnnouncementCreateView.as_view()),
+
 
 
 ]

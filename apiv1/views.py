@@ -516,20 +516,38 @@ class SemesterListView(ListAPIView):
 
 class PresentationBySemesterListView(ListAPIView):
     serializer_class = PresentationSerializer
-    lookup_field = 'pk'
-    lookup_url_kwarg = 'pk'
-    queryset = Semester.objects.all()
+    # queryset = Semester.objects.all()
 
     def get_queryset(self):
-        ss = self.get_object()
+        ss = Semester.objects.get(pk=self.kwargs.get('pk'))
         today = datetime.date.today()
         # print("today: ", today)
         all_pres = Presentation.objects.filter(deadline__lt=today, subject__semester=ss).order_by('-deadline')
         return Presentation.objects.filter()
 
 
-# class AnnouncementCreateView(CreateAPIView):
-#     serializer_class = AnnouncementSerializer
-#     permission_classes = [IsAlive, IsAuthenticated, IsAdmin]
-#
-#     def create(self, request, *args, **kwargs):
+class AnnouncementCreateView(CreateAPIView):
+    serializer_class = AnnouncementSerializer
+    permission_classes = [IsAlive, IsAuthenticated, IsAdmin]
+
+    def create(self, request, *args, **kwargs):
+        Announcement.objects.create(title=self.request.data.get("title"),
+                                    description=self.request.data.get("description"))
+
+        return Response({"msg": "ann created"}, status=status.HTTP_201_CREATED)
+
+
+class AnnFileUploadView(APIView):
+    parser_classes = [MultiPartParser]
+    permission_classes = [IsAuthenticated, IsAlive]
+
+    def post(self, request, pk, format=None):
+        # print("bzo boz e qandi")
+        fil = request.data.get("file")
+        # print(request.FILES['file'])
+        # fil = request.FILES['file']
+        # # do some stuff with uploaded file
+        File.objects.create(file=fil, name=self.request.data.get("name"), link=" sfg",
+                            presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
+
+        return Response({"msg": "file created"}, status=status.HTTP_200_OK)
