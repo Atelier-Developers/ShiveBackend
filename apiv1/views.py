@@ -497,9 +497,9 @@ class FileUploadView(APIView):
     permission_classes = [IsAuthenticated, IsAlive]
 
     def post(self, request, pk, format=None):
-        file_obj = request.FILES['file']
-        # do some stuff with uploaded file
-        File.objects.create(file=file_obj, name=self.request.data.get("name"), link=" sfg",
-                            presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
+        # file_obj = request.FILES['file']
+        # # do some stuff with uploaded file
+        # File.objects.create(file=file_obj, name=self.request.data.get("name"), link=" sfg",
+        #                     presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
