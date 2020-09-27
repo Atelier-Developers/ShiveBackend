@@ -503,7 +503,8 @@ class FileUploadView(APIView):
         # print(request.FILES['file'])
         # fil = request.FILES['file']
         # # do some stuff with uploaded file
-        File.objects.create(file=fil, name=self.request.data.get("name"), link=" sfg",
+        File.objects.create(profile=Profile.objects.get(user=self.request.user), file=fil,
+                            name=self.request.data.get("name"), link=" sfg",
                             presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
@@ -533,7 +534,7 @@ class AnnouncementCreateView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         a = Announcement.objects.create(title=self.request.data.get("title"),
-                                    description=self.request.data.get("description"))
+                                        description=self.request.data.get("description"))
 
         return Response({"msg": "ann created", "pk": a.pk}, status=status.HTTP_201_CREATED)
 
