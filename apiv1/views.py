@@ -528,8 +528,8 @@ class PresentationBySemesterListView(ListAPIView):
         return Presentation.objects.filter()
 
 
-class AnnouncementCreateView(CreateAPIView):
-    serializer_class = AnnouncementSerializer
-    permission_classes = [IsAlive, IsAuthenticated, IsAdmin]
-
-    def create(self, request, *args, **kwargs):
+# class AnnouncementCreateView(CreateAPIView):
+#     serializer_class = AnnouncementSerializer
+#     permission_classes = [IsAlive, IsAuthenticated, IsAdmin]
+#
+#     def create(self, request, *args, **kwargs):
