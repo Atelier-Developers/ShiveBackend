@@ -319,6 +319,7 @@ class PresentationUpdateView(UpdateAPIView):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.subject = request.data.get("subject")
+        instance.description = request.data.get("description")
         instance.save()
 
         return Response({"msg": "presentation updated"}, status=status.HTTP_200_OK)
