@@ -21,7 +21,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
-        fields = ["pk", "file", "name", "link"]
+        fields = ["pk", "file", "name"]
 
 
 class SignupSerializer(serializers.ModelSerializer):
