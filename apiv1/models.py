@@ -46,6 +46,7 @@ class Presentation(models.Model):
     subject = models.OneToOneField(Subject, on_delete=models.CASCADE, related_name="presentation", null=True,
                                    blank=True)
     deadline = models.DateField(null=True, blank=True)
+    description = models.TextField(max_length=100000, null=True, blank=True)
 
     @property
     def rate(self):
@@ -64,7 +65,7 @@ class Presentation(models.Model):
 
 class File(models.Model):
     name = models.CharField(max_length=512)
-    link = models.CharField(max_length=1024)
+    link = models.CharField(max_length=1024, default=" ")
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="files")
 
     def __str__(self):

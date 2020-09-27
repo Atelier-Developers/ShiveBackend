@@ -10,6 +10,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["pk", "name", "student_no", "phone", "team"]
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer
+
+    class Meta:
+        model = Comment
+        fields = ["pk", "profile", "presentation", "date_time", "text"]
+
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = ["pk", "name", "link"]
+
+
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
@@ -26,10 +40,12 @@ class SubjectSerializer(serializers.ModelSerializer):
 
 class PresentationSerializer(serializers.ModelSerializer):
     subject = SubjectSerializer()
+    comments = CommentSerializer(many=True)
+    files = FileSerializer(many=True)
 
     class Meta:
         model = Presentation
-        fields = ['pk', 'subject', 'deadline', 'rate']
+        fields = ['pk', 'subject', 'deadline', 'rate', 'comments', 'files']
 
 
 class TeamSerializer(serializers.ModelSerializer):
@@ -39,14 +55,6 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ["pk", "presentation", "profiles"]
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer
-
-    class Meta:
-        model = Comment
-        fields = ["pk", "profile", "presentation", "date_time", "text"]
 
 
 class MyAuthTokenSerializer(serializers.Serializer):
@@ -90,8 +98,9 @@ class CurrentTeamSerializer(serializers.ModelSerializer):
 class CurrentPresentationSerializer(serializers.ModelSerializer):
     team = CurrentTeamSerializer(many=True)
     subject = SubjectSerializer()
+    comments = CommentSerializer(many=True)
+    files = FileSerializer(many=True)
 
     class Meta:
         model = Presentation
-        fields = ['pk', 'subject', 'deadline', 'rate', 'team']
-
+        fields = ['pk', 'subject', 'deadline', 'rate', 'comments', 'files', 'team']

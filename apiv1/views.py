@@ -479,4 +479,12 @@ class ProfileTeamPresentationView(ListAPIView):
         p = Profile.objects.get(user=self.request.user)
         return p.team.presentation
 
-# class FileCreateView(CreateAPIView)
+
+class FileCreateView(CreateAPIView):
+    serializer_class = PresentationSerializer
+    permission_classes = [IsAuthenticated, IsAlive]
+    lookup_url_kwarg = 'pk'
+    lookup_field = 'pk'
+
+    def post(self, request, *args, **kwargs):
+        pass
