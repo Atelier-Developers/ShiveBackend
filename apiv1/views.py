@@ -498,6 +498,7 @@ class FileUploadView(APIView):
 
     def post(self, request, pk, format=None):
         # file_obj = request.FILES['file']
+        print("bzo boz e qandi")
         # # do some stuff with uploaded file
         # File.objects.create(file=file_obj, name=self.request.data.get("name"), link=" sfg",
         #                     presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
