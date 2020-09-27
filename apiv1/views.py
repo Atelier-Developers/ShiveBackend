@@ -315,7 +315,7 @@ class PresentationUpdateView(UpdateAPIView):
     queryset = Presentation.objects.all()
     serializer_class = PresentationSerializer
     lookup_field = "pk"
-    permission_classes = [IsAuthenticated, IsAdmin, IsAlive]
+    permission_classes = [IsAuthenticated, IsAlive]
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
