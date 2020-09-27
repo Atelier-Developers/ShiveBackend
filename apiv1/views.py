@@ -516,6 +516,7 @@ class SemesterListView(ListAPIView):
 
 class PresentationBySemesterListView(ListAPIView):
     serializer_class = PresentationSerializer
+
     # queryset = Semester.objects.all()
 
     def get_queryset(self):
@@ -547,7 +548,7 @@ class AnnFileUploadView(APIView):
         # print(request.FILES['file'])
         # fil = request.FILES['file']
         # # do some stuff with uploaded file
-        File.objects.create(file=fil, name=self.request.data.get("name"), link=" sfg",
-                            presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
+        AnnouncementFile.objects.create(file=fil, title=self.request.data.get("title"),
+                                        announcement=Announcement.objects.get(pk=self.kwargs.get("pk")))
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)

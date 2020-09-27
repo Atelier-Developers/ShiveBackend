@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
-from .models import Profile, Team, Semester, Subject, Presentation, File, Comment, Rating, AnnouncementFiles, \
+from .models import Profile, Team, Semester, Subject, Presentation, File, Comment, Rating, AnnouncementFile, \
     Announcement
 
 
@@ -121,7 +121,7 @@ class SemesterSerializer(serializers.ModelSerializer):
 
 class AnFileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AnnouncementFiles
+        model = AnnouncementFile
         fields = "__all__"
 
 

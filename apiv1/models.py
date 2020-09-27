@@ -111,7 +111,7 @@ class Announcement(models.Model):
     description = models.TextField(max_length=223456)
 
 
-class AnnouncementFiles(models.Model):
+class AnnouncementFile(models.Model):
     title = models.CharField(max_length=1234, null=True, blank=True)
     file = models.FileField(null=True, blank=True)
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE)
