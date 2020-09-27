@@ -499,10 +499,11 @@ class FileUploadView(APIView):
 
     def post(self, request, pk, format=None):
         print("bzo boz e qandi")
-        print(request.data.get("file"))
-        print(request.FILES)
+        fil = request.data.get("file")
+        # print(request.FILES['file'])
+        # fil = request.FILES['file']
         # # do some stuff with uploaded file
-        File.objects.create(name=self.request.data.get("name"), link=" sfg",
+        File.objects.create(file=fil, name=self.request.data.get("name"), link=" sfg",
                             presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
