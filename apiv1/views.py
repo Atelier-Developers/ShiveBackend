@@ -518,6 +518,7 @@ class PresentationBySemesterListView(ListAPIView):
     serializer_class = PresentationSerializer
     lookup_field = 'pk'
     lookup_url_kwarg = 'pk'
+    queryset = Semester.objects.all()
 
     def get_queryset(self):
         ss = self.get_object()

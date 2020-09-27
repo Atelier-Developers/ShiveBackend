@@ -38,6 +38,7 @@ urlpatterns = [
     path('presentation/comment/list/<int:pk>', CommentListView.as_view()),
     path('presentation/current/', CurrentPresentationGetView.as_view()),
     path('presentation/archive/', ArchiveListView.as_view()),
+    path('presentation/semester/<int:pk>', PresentationBySemesterListView.as_view()),
     path('presentation/rate/<int:pk>', RatingCreateView.as_view()),
     path('presentation/upload/<int:pk>', FileUploadView.as_view()),
     path('semester/list/', SemesterListView.as_view()),
