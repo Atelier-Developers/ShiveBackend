@@ -104,3 +104,9 @@ class CurrentPresentationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Presentation
         fields = ['pk', 'subject', 'deadline', 'rate', 'description', 'comments', 'files', 'team']
+
+
+class SemesterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Semester
+        fields = "__all__"

@@ -480,7 +480,7 @@ class ProfileTeamPresentationView(ListAPIView):
 
     def get_queryset(self):
         p = Profile.objects.get(user=self.request.user)
-        return p.team.presentation
+        return [p.team.presentation]
 
 
 class FileCreateView(CreateAPIView):
@@ -498,7 +498,7 @@ class FileUploadView(APIView):
     permission_classes = [IsAuthenticated, IsAlive]
 
     def post(self, request, pk, format=None):
-        print("bzo boz e qandi")
+        # print("bzo boz e qandi")
         fil = request.data.get("file")
         # print(request.FILES['file'])
         # fil = request.FILES['file']
@@ -507,3 +507,21 @@ class FileUploadView(APIView):
                             presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
+
+
+class SemesterListView(ListAPIView):
+    serializer_class = SemesterSerializer
+    queryset = Semester.objects.all().order_by('-pk')
+
+
+class PresentationBySemesterListView(ListAPIView):
+    serializer_class = PresentationSerializer
+    lookup_field = 'pk'
+    lookup_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        ss = self.get_object()
+        today = datetime.date.today()
+        # print("today: ", today)
+        all_pres = Presentation.objects.filter(deadline__lt=today, subject__semester=ss).order_by('-deadline')
+        return Presentation.objects.filter()
