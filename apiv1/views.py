@@ -13,6 +13,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
+import pprint
 
 from .models import Profile, User, Semester, Subject, Team, Presentation, Comment
 
@@ -497,7 +498,7 @@ class FileUploadView(APIView):
     permission_classes = [IsAuthenticated, IsAlive]
 
     def post(self, request, pk, format=None):
-        print(request)
+        pprint.pprint(request)
         print("bzo boz e qandi")
         # # do some stuff with uploaded file
         # File.objects.create(file=file_obj, name=self.request.data.get("name"), link=" sfg",
