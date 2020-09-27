@@ -526,3 +526,10 @@ class PresentationBySemesterListView(ListAPIView):
         # print("today: ", today)
         all_pres = Presentation.objects.filter(deadline__lt=today, subject__semester=ss).order_by('-deadline')
         return Presentation.objects.filter()
+
+
+class AnnouncementCreateView(CreateAPIView):
+    serializer_class = AnnouncementSerializer
+    permission_classes = [IsAlive, IsAuthenticated, IsAdmin]
+
+    def create(self, request, *args, **kwargs):

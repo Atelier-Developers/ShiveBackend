@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
-from .models import Profile, Team, Semester, Subject, Presentation, File, Comment, Rating
+from .models import Profile, Team, Semester, Subject, Presentation, File, Comment, Rating, AnnouncementFiles, \
+    Announcement
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -11,7 +12,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer
+    profile = ProfileSerializer()
 
     class Meta:
         model = Comment
@@ -110,3 +111,15 @@ class SemesterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semester
         fields = "__all__"
+
+
+class AnFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnnouncementFiles
+        fields = "__all__"
+
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Announcement
+        fields = '__all__'

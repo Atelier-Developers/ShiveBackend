@@ -95,12 +95,23 @@ class Rating(models.Model):
         return "Rating from " + str(self.profile) + " on " + str(self.presentation)
 
 
-class Test(models.Model):
-    file = models.FileField()
-    link = models.CharField(default="", max_length=2048)
+# class Test(models.Model):
+#     file = models.FileField()
+#     link = models.CharField(default="", max_length=2048)
+#
+#     def save(self, force_insert=False, force_update=False, using=None,
+#              update_fields=None, *args, **kwargs):
+#         self.link = "https://cdn.atelier-team.ir/shive/" + str(self.file.name)
+#         # self.save()
+#         super(Test, self).save(*args, **kwargs)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None, *args, **kwargs):
-        self.link = "https://cdn.atelier-team.ir/shive/" + str(self.file.name)
-        # self.save()
-        super(Test, self).save(*args, **kwargs)
+
+class Announcement(models.Model):
+    title = models.CharField(max_length=1234)
+    description = models.TextField(max_length=223456)
+
+
+class AnnouncementFiles(models.Model):
+    title = models.CharField(max_length=1234, null=True, blank=True)
+    file = models.FileField(null=True, blank=True)
+    announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE)
