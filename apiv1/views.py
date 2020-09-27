@@ -524,7 +524,7 @@ class PresentationBySemesterListView(ListAPIView):
         today = datetime.date.today()
         # print("today: ", today)
         all_pres = Presentation.objects.filter(deadline__lt=today, subject__semester=ss).order_by('-deadline')
-        return Presentation.objects.filter()
+        return all_pres
 
 
 class AnnouncementCreateView(CreateAPIView):
