@@ -115,4 +115,4 @@ class Announcement(models.Model):
 class AnnouncementFile(models.Model):
     title = models.CharField(max_length=1234, null=True, blank=True)
     file = models.FileField(null=True, blank=True)
-    announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE)
+    announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, related_name='files')
