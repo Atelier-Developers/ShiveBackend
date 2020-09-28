@@ -128,6 +128,8 @@ class AnFileSerializer(serializers.ModelSerializer):
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
+    files = AnFileSerializer(many=True)
+
     class Meta:
         model = Announcement
-        fields = '__all__'
+        fields = ['pk', 'title', 'description', 'files']
