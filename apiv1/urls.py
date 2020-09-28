@@ -46,7 +46,7 @@ urlpatterns = [
     path('ann/upload/<int:pk>', AnnFileUploadView.as_view()),
     path('ann/list/', AnnListVIew.as_view()),
     path('presentation/delete-file/<int:pk>', FileDeleteView.as_view()),
-
-
+    path('video/comment/create/<int:pk>', VideoCommentCreateView.as_view()),
+    path('video/comment/list/<int:pk>', VideoCommentListView.as_view()),
 
 ]

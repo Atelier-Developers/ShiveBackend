@@ -116,3 +116,10 @@ class AnnouncementFile(models.Model):
     title = models.CharField(max_length=1234, null=True, blank=True)
     file = models.FileField(null=True, blank=True)
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, related_name='files')
+
+
+class VideoComment(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    video = models.ForeignKey(File, on_delete=models.CASCADE, related_name='comments')
+    time = models.CharField(max_length=15)
+    text = models.TextField(max_length=4321)

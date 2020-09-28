@@ -570,3 +570,29 @@ class FileDeleteView(DestroyAPIView):
 class AnnListVIew(ListAPIView):
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all().order_by('-pk')
+
+
+class VideoCommentCreateView(CreateAPIView):
+    serializer_class = VideoCommentSerializer
+    permission_classes = [IsAuthenticated, IsAlive]
+    lookup_field = 'pk'
+    lookup_url_kwarg = 'pk'
+    queryset = File.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        fil = self.get_object()
+        # serializer = VideoCommentSerializer(data=)
+        VideoComment.objects.create(video=fil, profile=Profile.objects.get(user=self.request.user),
+                                    time=self.request.data.get("time"), text=self.request.data.get("text"))
+
+        return Response({"msg": "created"}, status=status.HTTP_201_CREATED)
+
+
+class VideoCommentListView(ListAPIView):
+    serializer_class = VideoCommentSerializer
+    permission_classes = []
+
+    def get_queryset(self):
+        fil = File.objects.get(pk=self.kwargs.get("pk"))
+
+        return fil.comments.all()
