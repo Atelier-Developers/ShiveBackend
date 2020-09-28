@@ -136,6 +136,8 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
 
 class VideoCommentSerializer(serializers.ModelSerializer):
+    profile = CProfileSerializer()
+
     class Meta:
         model = VideoComment
         fields = "__all__"
