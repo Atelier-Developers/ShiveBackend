@@ -401,7 +401,7 @@ class MyObtainAuthToken(APIView):
         user = serializer.validated_data['user']
         p = Profile.objects.get(user=user)
         if p.is_deleted:
-            return Response({"msg": "profile is not accepted yet"}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"msg": "profile is not accepted yet"}, status=status.HTTP_401_UNAUTHORIZED)
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key})
 
@@ -480,6 +480,8 @@ class ProfileTeamPresentationView(ListAPIView):
 
     def get_queryset(self):
         p = Profile.objects.get(user=self.request.user)
+        if not p.team:
+            return None
         return [p.team.presentation]
 
 
