@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django_jalali.db import models as jmodels
@@ -70,6 +72,7 @@ class File(models.Model):
     size = models.CharField(max_length=123, default=" ")
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="files")
     profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, related_name='files', null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True, default=datetime.datetime.now())
 
     def __str__(self):
         return self.name

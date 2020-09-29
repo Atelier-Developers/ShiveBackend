@@ -30,7 +30,7 @@ class FileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = File
-        fields = ["pk", "file", "name", 'link', 'size', 'profile']
+        fields = ["pk", "file", "name", 'link', 'size', 'date', 'profile']
 
 
 class SignupSerializer(serializers.ModelSerializer):
