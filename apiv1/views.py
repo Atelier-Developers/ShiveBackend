@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
@@ -5,8 +6,10 @@ from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Count
+import mimetypes
 import datetime
 from apiv1.permissions import IsAdmin, IsAlive
+from shive_back import settings
 from .serializers import *
 from rest_framework import parsers, renderers
 from rest_framework.authtoken.models import Token
@@ -598,3 +601,21 @@ class VideoCommentListView(ListAPIView):
         fil = File.objects.get(pk=self.kwargs.get("pk"))
 
         return fil.comments.all()
+
+
+class VideoDownloadView(ListAPIView):
+    # permission_classes =
+    serializer_class = FileSerializer
+
+    # lookup_url_kwarg = 'pk'
+    # lookup_field = 'pk'
+
+    def get(self, request, *args, **kwargs):
+        f = File.objects.get(pk=self.kwargs.get('pk'))
+
+        response = HttpResponse(content_type='mimetype', status=status.HTTP_206_PARTIAL_CONTENT)
+        response['Content-Disposition'] = "attachment; filename=%s" % f.FileName
+        response['Accept-Ranges'] = 'bytes'
+        response['X-Accel-Redirect'] = settings.MEDIA_URL + '/' + f.FileData.MD5
+        response['X-Accel-Buffering'] = 'no'
+        return response

@@ -48,5 +48,6 @@ urlpatterns = [
     path('presentation/delete-file/<int:pk>', FileDeleteView.as_view()),
     path('video/comment/create/<int:pk>', VideoCommentCreateView.as_view()),
     path('video/comment/list/<int:pk>', VideoCommentListView.as_view()),
+    path('file/<int:pk>', VideoDownloadView.as_view())
 
 ]
