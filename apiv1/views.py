@@ -617,5 +617,5 @@ class VideoDownloadView(ListAPIView):
         response['Content-Disposition'] = "attachment; filename=%s" % f.file.name
         response['Accept-Ranges'] = 'bytes'
         response['X-Accel-Redirect'] = settings.MEDIA_URL + '/' + f.file.name
-        response['X-Accel-Buffering'] = 'no'
+        response['X-Accel-Buffering'] = 'yes'
         return response
