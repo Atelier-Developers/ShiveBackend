@@ -614,7 +614,7 @@ class VideoDownloadView(ListAPIView):
         f = File.objects.get(pk=self.kwargs.get('pk'))
 
         response = HttpResponse(content_type='mimetype', status=status.HTTP_206_PARTIAL_CONTENT)
-        response['Content-Disposition'] = "attachment; filename=%s" % f.FileName
+        response['Content-Disposition'] = "attachment; filename=%s" % f.file.name
         response['Accept-Ranges'] = 'bytes'
         response['X-Accel-Redirect'] = settings.MEDIA_URL + '/' + f.file.name
         response['X-Accel-Buffering'] = 'no'
