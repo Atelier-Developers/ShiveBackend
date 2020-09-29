@@ -277,7 +277,9 @@ class DeleteProfileCreateView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         for i in self.request.data:
             p = Profile.objects.get(pk=i)
+            u = p.user
             p.delete()
+            u.delete()
 
         return Response({"msg": "profiles deleted"}, status=status.HTTP_200_OK)
 
