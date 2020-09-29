@@ -34,7 +34,7 @@ class ProfileCreateView(CreateAPIView):
 
             return Response({"msg": "user already exists"}, status=status.HTTP_409_CONFLICT)
 
-        except User.DoesNotExist:
+        except User.DoesNotExist or Profile.DoesNotExist:
             u = User.objects.create_user(username=request.data.get('student_no'))
             u.set_password(request.data.get('password'))
             u.save()
