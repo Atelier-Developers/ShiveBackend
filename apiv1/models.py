@@ -67,6 +67,7 @@ class File(models.Model):
     file = models.FileField()
     name = models.CharField(max_length=512)
     link = models.CharField(max_length=1024, default=" ")
+    size = models.CharField(max_length=123, default=" ")
     presentation = models.ForeignKey(Presentation, on_delete=models.CASCADE, related_name="files")
     profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, related_name='files', null=True, blank=True)
 

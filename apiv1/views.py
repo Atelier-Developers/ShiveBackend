@@ -509,9 +509,10 @@ class FileUploadView(APIView):
         # fil = request.FILES['file']
         # # do some stuff with uploaded file
         a = File.objects.create(profile=Profile.objects.get(user=self.request.user), file=fil,
-                            name=self.request.data.get("name"), link=" sfg",
-                            presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
+                                name=self.request.data.get("name"), link=" sfg",
+                                presentation=Presentation.objects.get(pk=self.kwargs.get("pk")))
         a.link = "https://cdn.atelier-team.ir/shive/" + a.file.name
+        a.size = a.file.size
         a.save()
 
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
