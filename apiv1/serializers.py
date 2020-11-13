@@ -162,4 +162,4 @@ class AssignmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Assignment
-        fields = ['pk', 'subject', 'name', 'profile', 'files']
+        fields = ['pk', 'subject', 'date', 'name', 'profile', 'files']
