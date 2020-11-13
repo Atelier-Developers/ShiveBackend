@@ -644,7 +644,9 @@ class AssignmentCreateView(CreateAPIView):
     permission_classes = [IsAlive, IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        a = Assignment.objects.create(name=self.request.data.get("name"),
+        p = self.request.user
+        p = Profile.objects.get(user=p)
+        a = Assignment.objects.create(name=self.request.data.get("name"), profile=p,
                                       subject=AssignmentSubject.objects.get(pk=self.request.data.get("subjectId")))
 
         return Response({"msg": "assignment created", "pk": a.pk}, status=status.HTTP_201_CREATED)
