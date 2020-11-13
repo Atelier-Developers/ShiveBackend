@@ -149,16 +149,17 @@ class AssignmentSubjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AssignmentSerializer(serializers.ModelSerializer):
-    # files = AnFileSerializer(many=True)
-
-    class Meta:
-        model = Assignment
-        fields = '__all__'
-
-
 class AssignmentFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssignmentFile
         fields = "__all__"
 
+
+class AssignmentSerializer(serializers.ModelSerializer):
+    # files = AnFileSerializer(many=True)
+    profile = CProfileSerializer()
+    files = AssignmentFileSerializer(many=True)
+
+    class Meta:
+        model = Assignment
+        fields = ['pk', 'subject', 'name', 'profile', 'files']
