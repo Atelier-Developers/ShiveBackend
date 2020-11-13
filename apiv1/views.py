@@ -663,3 +663,4 @@ class AssignmentFileUploadView(APIView):
                                       assignment=Assignment.objects.get(pk=self.kwargs.get("pk")))
         a.size = a.file.size
         a.save()
+        return Response({"msg": "file created"}, status=status.HTTP_200_OK)

@@ -156,7 +156,6 @@ class AssignmentFileSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
-    # files = AnFileSerializer(many=True)
     profile = CProfileSerializer()
     files = AssignmentFileSerializer(many=True)
 
