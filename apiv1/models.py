@@ -127,3 +127,23 @@ class VideoComment(models.Model):
     video = models.ForeignKey(File, on_delete=models.CASCADE, related_name='comments')
     time = models.CharField(max_length=15)
     text = models.TextField(max_length=4321)
+
+
+class AssignmentSubject(models.Model):
+    name = models.CharField(max_length=1234)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + ' ' + str(self.semester)
+
+
+class Assignment(models.Model):
+    name = models.CharField(max_length=92345)
+    subject = models.ForeignKey(AssignmentSubject, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+
+class AssignmentFile(models.Model):
+    title = models.CharField(max_length=1234, null=True, blank=True)
+    file = models.FileField(null=True, blank=True)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='files')

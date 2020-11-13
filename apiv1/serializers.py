@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
 from .models import Profile, Team, Semester, Subject, Presentation, File, Comment, Rating, AnnouncementFile, \
-    Announcement, VideoComment
+    Announcement, VideoComment, Assignment, AssignmentSubject, AssignmentFile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -141,3 +141,24 @@ class VideoCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoComment
         fields = "__all__"
+
+
+class AssignmentSubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssignmentSubject
+        fields = '__all__'
+
+
+class AssignmentSerializer(serializers.ModelSerializer):
+    # files = AnFileSerializer(many=True)
+
+    class Meta:
+        model = Assignment
+        fields = '__all__'
+
+
+class AssignmentFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssignmentFile
+        fields = "__all__"
+

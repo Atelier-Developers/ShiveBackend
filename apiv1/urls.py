@@ -48,6 +48,10 @@ urlpatterns = [
     path('presentation/delete-file/<int:pk>', FileDeleteView.as_view()),
     path('video/comment/create/<int:pk>', VideoCommentCreateView.as_view()),
     path('video/comment/list/<int:pk>', VideoCommentListView.as_view()),
-    path('file/<int:pk>', VideoDownloadView.as_view())
+    path('file/<int:pk>', VideoDownloadView.as_view()),
+    path('assignment/subjects/all/', AssignmentSubjectListView.as_view()),
+    path('assignment/subjects/<int:pk>', AssignmentListView.as_view()),
+    path('assignment/create/', AssignmentCreateView.as_view()),
+    path('assignment/upload/<int:pk>', AssignmentFileUploadView.as_view()),
 
 ]

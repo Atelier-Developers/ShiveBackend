@@ -18,7 +18,7 @@ from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
 import pprint
 
-from .models import Profile, User, Semester, Subject, Team, Presentation, Comment
+from .models import Profile, User, Semester, Subject, Team, Presentation, Comment, AssignmentSubject, Assignment
 
 
 # Create your views here.
@@ -624,3 +624,38 @@ class VideoDownloadView(ListAPIView):
         response['X-Accel-Redirect'] = settings.MEDIA_URL + '/' + f.file.name
         response['X-Accel-Buffering'] = 'yes'
         return response
+
+
+class AssignmentSubjectListView(ListAPIView):
+    serializer_class = AssignmentSubjectSerializer
+    queryset = AssignmentSubject.objects.all()
+
+
+class AssignmentListView(ListAPIView):
+    serializer_class = AssignmentSerializer
+
+    def get_queryset(self):
+        p = self.kwargs.get('pk')
+        return Assignment.objects.filter(subject=p)
+
+
+class AssignmentCreateView(CreateAPIView):
+    serializer_class = AssignmentSerializer
+    permission_classes = [IsAlive, IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        a = Assignment.objects.create(name=self.request.data.get("name"),
+                                      subject=AssignmentSubject.objects.get(pk=self.request.data.get("sebjectId")))
+
+        return Response({"msg": "assignment created", "pk": a.pk}, status=status.HTTP_201_CREATED)
+
+
+class AssignmentFileUploadView(APIView):
+    parser_classes = [MultiPartParser]
+    permission_classes = [IsAuthenticated, IsAlive]
+
+    def post(self, request, pk, format=None):
+        fil = request.data.get("file")
+
+        AssignmentFile.objects.create(file=fil, title=self.request.data.get("title"),
+                                      assignment=Assignment.objects.get(pk=self.kwargs.get("pk")))
