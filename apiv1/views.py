@@ -659,5 +659,7 @@ class AssignmentFileUploadView(APIView):
     def post(self, request, pk, format=None):
         fil = request.data.get("file")
 
-        AssignmentFile.objects.create(file=fil, title=self.request.data.get("title"),
+        a = AssignmentFile.objects.create(file=fil, title=self.request.data.get("title"),
                                       assignment=Assignment.objects.get(pk=self.kwargs.get("pk")))
+        a.size = a.file.size
+        a.save()

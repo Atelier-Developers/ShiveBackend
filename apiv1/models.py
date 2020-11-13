@@ -147,4 +147,5 @@ class AssignmentFile(models.Model):
     title = models.CharField(max_length=1234, null=True, blank=True)
     file = models.FileField(null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    size = models.CharField(default=' ', max_length=1234)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='files')
