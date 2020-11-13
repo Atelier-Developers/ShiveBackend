@@ -645,7 +645,7 @@ class AssignmentCreateView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         a = Assignment.objects.create(name=self.request.data.get("name"),
-                                      subject=AssignmentSubject.objects.get(pk=self.request.data.get("sebjectId")))
+                                      subject=AssignmentSubject.objects.get(pk=self.request.data.get("subjectId")))
 
         return Response({"msg": "assignment created", "pk": a.pk}, status=status.HTTP_201_CREATED)
 
