@@ -679,7 +679,7 @@ class IssueCreateView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         p = self.request.user
         p = Profile.objects.get(user=p)
-        a = Issue.objects.create(name=self.request.data.get("name"), profile=p, title=self.request.data.get("title"),
+        a = Issue.objects.create(profile=p, title=self.request.data.get("title"),
                                  description=self.request.data.get("description"))
 
         return Response({"msg": "issue created", "pk": a.pk}, status=status.HTTP_201_CREATED)
