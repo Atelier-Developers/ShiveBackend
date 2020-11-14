@@ -149,3 +149,19 @@ class AssignmentFile(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     size = models.CharField(default=' ', max_length=1234)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='files')
+
+
+class Issue(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    status = models.CharField(max_length=12, choices=[("waiting", "waiting"), ("done", "done")], default="waiting")
+    title = models.CharField(max_length=9432)
+    description = models.TextField(max_length=987654)
+
+    def __str__(self):
+        return self.title
+
+
+class IssueFile(models.Model):
+    title = models.CharField(max_length=1234, null=True, blank=True)
+    file = models.FileField(null=True, blank=True)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='files')

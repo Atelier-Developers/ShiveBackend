@@ -53,5 +53,7 @@ urlpatterns = [
     path('assignment/subjects/<int:pk>', AssignmentListView.as_view()),
     path('assignment/create/', AssignmentCreateView.as_view()),
     path('assignment/upload/<int:pk>', AssignmentFileUploadView.as_view()),
+    path('issue/create/', IssueCreateView.as_view()),
+    path('issue/list/', IssueListView.as_view())
 
 ]

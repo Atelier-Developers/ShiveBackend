@@ -660,7 +660,40 @@ class AssignmentFileUploadView(APIView):
         fil = request.data.get("file")
 
         a = AssignmentFile.objects.create(file=fil, title=self.request.data.get("title"),
-                                      assignment=Assignment.objects.get(pk=self.kwargs.get("pk")))
+                                          assignment=Assignment.objects.get(pk=self.kwargs.get("pk")))
         a.size = a.file.size
         a.save()
+        return Response({"msg": "file created"}, status=status.HTTP_200_OK)
+
+
+class IssueListView(ListAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [IsAlive, IsAdmin]
+    queryset = Issue.objects.filter(status='waiting')
+
+
+class IssueCreateView(CreateAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [IsAlive, IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        p = self.request.user
+        p = Profile.objects.get(user=p)
+        a = Issue.objects.create(name=self.request.data.get("name"), profile=p, title=self.request.data.get("title"),
+                                 description=self.request.data.get("description"))
+
+        return Response({"msg": "issue created", "pk": a.pk}, status=status.HTTP_201_CREATED)
+
+
+class IssueFileUploadView(APIView):
+    parser_classes = [MultiPartParser]
+    permission_classes = [IsAuthenticated, IsAlive]
+
+    def post(self, request, pk, format=None):
+        fil = request.data.get("file")
+
+        a = IssueFile.objects.create(file=fil, title=self.request.data.get("title"),
+                                     issue=Issue.objects.get(pk=self.kwargs.get("pk")))
+        # a.size = a.file.size
+        # a.save()
         return Response({"msg": "file created"}, status=status.HTTP_200_OK)
