@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Profile, Team, Semester, Subject, Presentation, File, Comment, Rating, Announcement, \
-    AnnouncementFile, VideoComment, AssignmentSubject, Assignment, AssignmentFile
+    AnnouncementFile, VideoComment, AssignmentSubject, Assignment, AssignmentFile, Issue, IssueFile
 
 # Register your models here.
 
@@ -19,3 +19,5 @@ admin.site.register(VideoComment)
 admin.site.register(AssignmentSubject)
 admin.site.register(Assignment)
 admin.site.register(AssignmentFile)
+admin.site.register(Issue)
+admin.site.register(IssueFile)
